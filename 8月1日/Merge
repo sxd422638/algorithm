@@ -1,0 +1,57 @@
+/*
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+			val(x), next(NULL) {
+	}
+};*/
+//尾插法  定义了连个指针 
+class Solution {
+public:
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
+    {
+        //合并前先进行判定 1为空返回2 2为空返回1
+        if(nullptr == pHead1)
+            return pHead2;
+        if(nullptr == pHead2)
+            return pHead1;
+        //合并中，无非是比较各自首节点谁小，就把该节点从原链表中删除，再尾插到新节点处，比较重，两个链表任何一个都不能为空
+        ListNode* new_head = nullptr;//新链表的头部
+        ListNode* new_tail = nullptr;//新链表的尾部
+        while(pHead1 && pHead2){
+        //先判定拿哪个节点
+        ListNode* p  = pHead1->val < pHead2->val ? pHead1 : pHead2;
+            //再在指定链表中，删除目标节点
+            if(p == pHead1)
+                pHead1 = pHead1->next;//指向下一个往后走
+            else{
+                  pHead2 = pHead2->next;
+            }
+            //尾插到新链表，这里要考虑第一次插入的情况
+            if(nullptr == new_head)
+            {
+                new_head = p;
+                new_tail = p;
+            }
+            else{
+                new_tail->next = p ;
+                new_tail = p;
+            }
+
+        }
+        
+        //合并后，可能会有：1.pHead1为空 2. pHead为空 3.都为空
+        if(nullptr == pHead1){
+            new_tail->next = pHead2;
+        }
+        else if(nullptr == pHead2){
+            new_tail->next = pHead1;
+        }
+        else{
+            
+        }
+        return new_head;
+        
+    }
+};
